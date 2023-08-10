@@ -3,6 +3,7 @@ package jade;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
+import renderer.Texture;
 import util.Time;
 
 import java.nio.FloatBuffer;
@@ -14,11 +15,11 @@ import static org.lwjgl.opengl.GL30.*;
 public class LevelEditorScene extends Scene{
 
     private float[] vertexArray={
-            //position ,         color
-            100.0f,0.0f,0.0f,    1.0f,0.0f,0.0f,1.0f,  //bottom right 0
-            0.0f,100.0f,0.0f,    0.0f,1.0f,0.0f,1.0f, //top left      1
-            100.0f,100.0f,0.0f,    0.0f,0.0f,1.0f,1.0f,  //top right     2
-            0.0f,0.0f,0.0f,    1.0f,1.0f,0.0f,1.0f //bottom left  3
+            //position ,         color                U V coordinates  // flip upside down to get proper
+            100.0f,0.0f,0.0f,    1.0f,0.0f,0.0f,1.0f,    1,1,    //bottom right 0
+            0.0f,100.0f,0.0f,    0.0f,1.0f,0.0f,1.0f,    0,0,    //top left      1
+            100.0f,100.0f,0.0f,    0.0f,0.0f,1.0f,1.0f,  1,0,    //top right     2
+            0.0f,0.0f,0.0f,    1.0f,1.0f,0.0f,1.0f      ,0,1     //bottom left  3
     };
 
 
@@ -38,6 +39,8 @@ public class LevelEditorScene extends Scene{
 
     private Shader defaultShader;
 
+    private Texture testTexture;
+
     public LevelEditorScene(){
 
 
@@ -49,6 +52,14 @@ public class LevelEditorScene extends Scene{
 
         defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compile();
+
+
+        testTexture = new Texture("assets/images/test.png");
+
+        //upload texture to shader
+        defaultShader.uploadTexture("TEX_SAMPLER",0 );
+        glActiveTexture(GL_TEXTURE0);
+        testTexture.bind();
 
         //***************************************************************
         // GENERATING VAO, VBO, EBO BUFFER OBJECT and send it to gpu
@@ -77,18 +88,19 @@ public class LevelEditorScene extends Scene{
         //add vertex attribute pointers
         int positionsSize = 3;
         int colorSize = 4;
-        int floatSizeBytes = 4;
+        int uvSize = 2;
 
-        int vertexSizeBytes = (positionsSize + colorSize)*floatSizeBytes;
+        int vertexSizeBytes = (positionsSize + colorSize+uvSize)*Float.BYTES;
         glVertexAttribPointer(0,positionsSize,GL_FLOAT,false,vertexSizeBytes,0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1,colorSize,GL_FLOAT,false,vertexSizeBytes,positionsSize*floatSizeBytes);
+        glVertexAttribPointer(1,colorSize,GL_FLOAT,false,vertexSizeBytes,positionsSize*Float.BYTES);
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2,uvSize,GL_FLOAT,false,vertexSizeBytes,(positionsSize+colorSize)*Float.BYTES);
+        glEnableVertexAttribArray(2);
     }
 
     @Override
     public void update(float dt) {
-        camera.position.x-=50*dt;
         //bind shader Program
         defaultShader.use();
 
