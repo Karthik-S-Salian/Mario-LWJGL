@@ -3,11 +3,11 @@ package jade;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import util.Time;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20C.GL_MAX_TEXTURE_IMAGE_UNITS;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
@@ -53,7 +53,6 @@ public class Window {
     public void init(){
         GLFWErrorCallback.createPrint(System.err).set();
 
-
         //Initialise GLFW
         if(!glfwInit()){
             throw  new IllegalStateException("Unable to initialize GLFW.");
@@ -83,21 +82,17 @@ public class Window {
         glfwSwapInterval(1);
 
         //make the window visible
-
         glfwShowWindow(glfwWindow);
 
-
         GL.createCapabilities();  //very important
-
-
 
         Window.changeScene(0);
 
     }
     public void loop(){
 
-        float beginTime = Time.getTime();
-        float endTime = Time.getTime();
+        float beginTime = (float) glfwGetTime();
+        float endTime = (float) glfwGetTime();
         float dt=-1.0f;
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
@@ -116,7 +111,7 @@ public class Window {
 
             glfwSwapBuffers(glfwWindow);
 
-            endTime=Time.getTime();
+            endTime=(float) glfwGetTime();
             dt = endTime-beginTime;
             beginTime=endTime;
         }

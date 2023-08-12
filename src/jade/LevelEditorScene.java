@@ -14,25 +14,14 @@ public class LevelEditorScene extends Scene{
     public void init() {
 
         this.camera = new Camera(new Vector2f());
-        int xOffset = 10;
-        int yOffset = 10;
 
-        float totalWidth = (float) (1200 - xOffset*2);
-        float totalHeight = (float) (500 - yOffset*2);
+        GameObject obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)));
+        obj1.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/test.png")));
+        this.addGameObjectToScene(obj1);
 
-        float sizeX = totalWidth/100.0f;
-        float sizeY = totalHeight/100.0f;
-
-        for(int x = 0;x<100;x++){
-            for(int y =0 ;y<100;y++){
-                float xPos = xOffset+(x*sizeX);
-                float yPos = yOffset+(y*sizeY);
-
-                GameObject go =  new GameObject("object"+x+" "+y,new Transform(new Vector2f(xPos,yPos),new Vector2f(sizeX,sizeY)));
-                go.addComponent(new SpriteRenderer(new Vector4f(xPos/totalWidth,yPos/totalHeight,1,1)));
-                this.addGameObjectToScene(go);
-            }
-        }
+        GameObject obj2 = new GameObject("object 1",new Transform(new Vector2f(400,100),new Vector2f(256,256)));
+        obj2.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/test.png")));
+        this.addGameObjectToScene(obj2);
 
         loadResources();
 
