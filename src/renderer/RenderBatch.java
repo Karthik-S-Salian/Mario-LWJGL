@@ -4,6 +4,7 @@ import components.SpriteRenderer;
 import jade.Window;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import org.w3c.dom.Text;
 import util.AssetPool;
 
 import java.util.ArrayList;
@@ -47,13 +48,16 @@ public class RenderBatch {
 
     private int vaoID,vboID;
     private int maxBatchSize;
+    private int maxTextureBatchSize;
     private Shader shader;
 
-    public RenderBatch(int maxBatchSize){
+    public RenderBatch(int maxBatchSize,int maxTextureBatchSize){
         this.shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         this.sprites = new SpriteRenderer[maxBatchSize];
+
         this.maxBatchSize = maxBatchSize;
+        this.maxTextureBatchSize = maxTextureBatchSize;
 
         //4 vertices quads
         this.vertices = new float[maxBatchSize* 4 * VERTEX_SIZE];
@@ -236,5 +240,13 @@ public class RenderBatch {
 
     public boolean hasRoom(){
         return hasRoom;
+    }
+
+    public boolean hasTextureRoom(){
+        return this.textures.size()<this.maxTextureBatchSize;
+    }
+
+    public boolean hasTexture(Texture tex){
+        return this.textures.contains(tex);
     }
 }
