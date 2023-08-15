@@ -8,6 +8,8 @@ import org.joml.Vector4f;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene{
+
+    private  GameObject obj1;
     public LevelEditorScene(){
 
     }
@@ -20,7 +22,7 @@ public class LevelEditorScene extends Scene{
 
         SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
 
-        GameObject obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)));
+        obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)));
         obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         this.addGameObjectToScene(obj1);
 
@@ -36,6 +38,7 @@ public class LevelEditorScene extends Scene{
 
     @Override
     public void update(float dt) {
+        obj1.transform.position.x += 10*dt;
         for(GameObject go:this.gameObjects){
             go.update(dt);
         }
