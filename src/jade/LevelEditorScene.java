@@ -20,14 +20,14 @@ public class LevelEditorScene extends Scene{
 
         this.camera = new Camera(new Vector2f());
 
-        SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
+        //SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
 
-        obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)));
-        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)),1);
+        obj1.addComponent(new SpriteRenderer(new Vector4f(0,1,0,0.3f)));
         this.addGameObjectToScene(obj1);
 
-        GameObject obj2 = new GameObject("object 1",new Transform(new Vector2f(400,100),new Vector2f(256,256)));
-        obj2.addComponent(new SpriteRenderer(sprites.getSprite(5)));
+        GameObject obj2 = new GameObject("object 1",new Transform(new Vector2f(300,100),new Vector2f(256,256)),0);
+        obj2.addComponent(new SpriteRenderer(new Vector4f(1,0,0,0.7f)));
         this.addGameObjectToScene(obj2);
     }
 
@@ -38,7 +38,7 @@ public class LevelEditorScene extends Scene{
 
     @Override
     public void update(float dt) {
-        obj1.transform.position.x += 10*dt;
+        //obj1.transform.position.x += 710*dt;
         for(GameObject go:this.gameObjects){
             go.update(dt);
         }

@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch>{
 
 
     // vao
@@ -50,8 +50,10 @@ public class RenderBatch {
     private int maxBatchSize;
     private int maxTextureBatchSize;
     private Shader shader;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize,int maxTextureBatchSize){
+    public RenderBatch(int maxBatchSize,int maxTextureBatchSize,int zIndex){
+        this.zIndex = zIndex;
         this.shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         this.sprites = new SpriteRenderer[maxBatchSize];
@@ -262,5 +264,12 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture tex){
         return this.textures.contains(tex);
+    }
+
+    public int zIndex(){return this.zIndex;}
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        return Integer.compare(this.zIndex,o.zIndex);
     }
 }
