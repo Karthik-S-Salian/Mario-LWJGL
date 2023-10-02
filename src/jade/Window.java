@@ -11,9 +11,11 @@ import static org.lwjgl.opengl.GL20C.GL_MAX_TEXTURE_IMAGE_UNITS;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-    private final int width;
-    private final int height;
+    private  int width;
+    private  int height;
     private long glfwWindow;
+
+    private ImGuiLayer imguiLayer;
     private String title;
 
     private static Scene currentScene;
@@ -61,7 +63,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE,GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED,GLFW_TRUE);
+        //glfwWindowHint(GLFW_MAXIMIZED,GLFW_TRUE);
 
         glfwWindow  = glfwCreateWindow(this.width,this.height,this.title,NULL,NULL);
 
@@ -69,11 +71,14 @@ public class Window {
             throw new IllegalStateException("Failed to create the GLFW window");
         }
 
-
         glfwSetCursorPosCallback(glfwWindow,MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow,MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow,MouseListener::mouseScrollCallback);
         glfwSetKeyCallback(glfwWindow,KeyListener::keyCallback);
+        glfwSetWindowSizeCallback(glfwWindow,(w,newWidth,newHeight)->{
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
 
         //make opengl context current
         glfwMakeContextCurrent(glfwWindow);
@@ -89,6 +94,9 @@ public class Window {
         glEnable(GL_BLEND);
 
         glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
+        this.imguiLayer = new ImGuiLayer(glfwWindow);
+        imguiLayer.initImGui();
 
         Window.changeScene(0);
 
@@ -113,6 +121,7 @@ public class Window {
                 System.out.println("space key is pressed");
             }
 
+            this.imguiLayer.update(dt);
             glfwSwapBuffers(glfwWindow);
 
             endTime=(float) glfwGetTime();
@@ -137,6 +146,22 @@ public class Window {
                 assert false : "Unknown scene";
             }
         }
+    }
+
+    public static int getWidth(){
+        return get().width;
+    }
+
+    public static int getHeight(){
+        return get().height;
+    }
+
+    public static void setWidth(int width){
+        get().width=width;
+    }
+
+    public static void setHeight(int height){
+        get().height=height;
     }
 
     public static Scene getScene(){
