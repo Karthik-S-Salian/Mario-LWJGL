@@ -11,9 +11,4 @@ public class FontRenderer extends Component {
             System.out.println("Found Font Renderer!");
         }
     }
-
-    @Override
-    public void update(float dt) {
-
-    }
 }
