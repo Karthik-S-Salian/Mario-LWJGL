@@ -1,6 +1,7 @@
 package jade;
 
-import components.Sprite;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.SpriteRenderer;
 import components.SpriteSheet;
 import imgui.ImGui;
@@ -9,7 +10,6 @@ import org.joml.Vector4f;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene{
-
     private  GameObject obj1;
     public LevelEditorScene(){
 
@@ -24,13 +24,18 @@ public class LevelEditorScene extends Scene{
         //SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
 
         obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)),1);
-        obj1.addComponent(new SpriteRenderer(new Vector4f(0,1,0,1.0f)));
+        SpriteRenderer obj1SpriteRenderer = new SpriteRenderer();
+        obj1SpriteRenderer.setColor(new Vector4f(0,1,0,1.0f));
+        obj1.addComponent(obj1SpriteRenderer);
         this.addGameObjectToScene(obj1);
         this.activeGameObject=obj1;
 
         GameObject obj2 = new GameObject("object 1",new Transform(new Vector2f(300,100),new Vector2f(256,256)),0);
-        obj2.addComponent(new SpriteRenderer(new Vector4f(1,0,0,0.7f)));
+        SpriteRenderer obj2SpriteRenderer = new SpriteRenderer();
+        obj2SpriteRenderer.setColor(new Vector4f(1,0,0,0.7f));
+        obj2.addComponent(obj2SpriteRenderer);
         this.addGameObjectToScene(obj2);
+
     }
 
     private void loadResources(){

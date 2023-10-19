@@ -9,25 +9,24 @@ import renderer.Texture;
 
 public class SpriteRenderer extends Component {
 
-    private boolean isDirty = false;
+    private Vector4f color = new Vector4f(1,1,1,1);
 
-    private Vector4f color;
+    private Sprite sprite = new Sprite();
 
-    private Sprite sprite;
+    private transient Transform lastTransform;
+    private transient boolean isDirty = false;
 
-    private Transform lastTransform;
-
-    public SpriteRenderer(Vector4f color) {
-        this.color = color;
-        this.sprite = new Sprite(null);
-        isDirty=true;
-    }
-
-    public SpriteRenderer(Sprite sprite) {
-        this.sprite = sprite;
-        this.color = new Vector4f(1, 1, 1, 1);
-        isDirty=true;
-    }
+//    public SpriteRenderer(Vector4f color) {
+//        this.color = color;
+//        this.sprite = new Sprite(null);
+//        isDirty=true;
+//    }
+//
+//    public SpriteRenderer(Sprite sprite) {
+//        this.sprite = sprite;
+//        this.color = new Vector4f(1, 1, 1, 1);
+//        isDirty=true;
+//    }
 
     @Override
     public void start() {

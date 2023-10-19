@@ -16,7 +16,8 @@ public class Texture {
 
     private int width;
     private int height;
-    public Texture(String filePath){
+
+    public void init(String filePath){
         this.filePath = filePath;
 
         //Generate Texture on GPU
@@ -57,6 +58,8 @@ public class Texture {
             assert false : "(Texture) Could not load image '"+ filePath+"'";
         }
     }
+
+
 
     public void bind(){
         glBindTexture(GL_TEXTURE_2D,textureID);
