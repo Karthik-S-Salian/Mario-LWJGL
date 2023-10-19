@@ -106,6 +106,8 @@ public class Window {
         float beginTime = (float) glfwGetTime();
         float endTime = (float) glfwGetTime();
         float dt=-1.0f;
+
+        currentScene.load();
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
 
@@ -128,6 +130,7 @@ public class Window {
             dt = endTime-beginTime;
             beginTime=endTime;
         }
+        currentScene.saveExit();
     }
 
     public static void changeScene(int newScene){

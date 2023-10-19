@@ -21,6 +21,10 @@ public class LevelEditorScene extends Scene{
 
         this.camera = new Camera(new Vector2f());
 
+        if(levelLoaded){
+            return;
+        }
+
         //SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
 
         obj1 = new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)),1);
@@ -35,7 +39,6 @@ public class LevelEditorScene extends Scene{
         obj2SpriteRenderer.setColor(new Vector4f(1,0,0,0.7f));
         obj2.addComponent(obj2SpriteRenderer);
         this.addGameObjectToScene(obj2);
-
     }
 
     private void loadResources(){
