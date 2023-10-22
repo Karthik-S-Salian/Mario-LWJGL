@@ -1,5 +1,7 @@
 package jade;
 
+import org.joml.Vector4f;
+
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
@@ -87,6 +89,20 @@ public class MouseListener {
 
     public static boolean isDragging(){
         return get().isDragging;
+    }
+
+    public static float getOrthoX(){
+        float currentX = (MouseListener.getX()/(float) Window.getWidth())*2.0f-1.0f;
+        Vector4f temp = new Vector4f(currentX,0,0,1);
+        temp.mul(Window.getScene().camera().getInverseProjection()).mul(Window.getScene().camera().getInverseView());
+        return temp.x;
+    }
+
+    public static float getOrthoY(){
+        float currentY = (MouseListener.getY()/(float) Window.getHeight())*2.0f-1.0f;
+        Vector4f temp = new Vector4f(0,currentY,0,1);
+        temp.mul(Window.getScene().camera().getInverseProjection()).mul(Window.getScene().camera().getInverseView());
+        return temp.y;
     }
 
     public  static  boolean mouseButtonDown(int button){
