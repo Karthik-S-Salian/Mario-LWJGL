@@ -163,7 +163,7 @@ public class ImGuiLayer {
         // Method initializes LWJGL3 renderer.
         // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
         // ImGui context should be created as well.
-        imGuiGl3.init("#version 330 core");
+        imGuiGl3.init("#version 460 core");
     }
 
     public void update(float dt,Scene currentScene) {

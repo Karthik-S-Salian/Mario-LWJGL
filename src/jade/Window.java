@@ -1,8 +1,11 @@
 package jade;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -63,7 +66,13 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE,GLFW_TRUE);
-        //glfwWindowHint(GLFW_MAXIMIZED,GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED,GLFW_TRUE);
+
+
+
+
+
+
 
         glfwWindow  = glfwCreateWindow(this.width,this.height,this.title,NULL,NULL);
 
@@ -76,9 +85,15 @@ public class Window {
         glfwSetScrollCallback(glfwWindow,MouseListener::mouseScrollCallback);
         glfwSetKeyCallback(glfwWindow,KeyListener::keyCallback);
         glfwSetWindowSizeCallback(glfwWindow,(w,newWidth,newHeight)->{
-            Window.setWidth(newWidth);
-            Window.setHeight(newHeight);
+            Window.setWindowSize(newWidth,newHeight);
         });
+
+        {
+            int[] width = {0};
+            int[] height = {0};
+            glfwGetWindowSize(glfwWindow, width, height);
+            Window.setWindowSize(width[0],height[0]);
+        }
 
         //make opengl context current
         glfwMakeContextCurrent(glfwWindow);
@@ -107,7 +122,6 @@ public class Window {
         float endTime = (float) glfwGetTime();
         float dt=-1.0f;
 
-        currentScene.load();
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
 
@@ -137,18 +151,17 @@ public class Window {
         switch (newScene) {
             case 0 -> {
                 currentScene = new LevelEditorScene();
-                currentScene.init();
-                currentScene.start();
             }
             case 1 -> {
                 currentScene = new LevelScene();
-                currentScene.init();
-                currentScene.start();
             }
             default -> {
                 assert false : "Unknown scene";
             }
         }
+        currentScene.load();
+        currentScene.init();
+        currentScene.start();
     }
 
     public static int getWidth(){
@@ -161,6 +174,11 @@ public class Window {
 
     public static void setWidth(int width){
         get().width=width;
+    }
+
+    public static void setWindowSize(int width,int height){
+        get().width=width;
+        get().height = height;
     }
 
     public static void setHeight(int height){

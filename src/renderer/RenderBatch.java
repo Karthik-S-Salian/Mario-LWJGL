@@ -4,7 +4,6 @@ import components.SpriteRenderer;
 import jade.Window;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import org.w3c.dom.Text;
 import util.AssetPool;
 
 import java.util.ArrayList;
