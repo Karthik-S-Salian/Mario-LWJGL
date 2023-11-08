@@ -1,16 +1,15 @@
 package jade;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-
-import java.nio.IntBuffer;
+import scenes.LevelEditorScene;
+import scenes.LevelScene;
+import scenes.Scene;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20C.GL_MAX_TEXTURE_IMAGE_UNITS;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {

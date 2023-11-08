@@ -1,5 +1,7 @@
 package jade;
 
+import components.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +11,15 @@ public class GameObject {
     public  Transform transform;
     private int zIndex;
 
-    public GameObject(String name){
-        this.name = name;
-        this.components = new ArrayList<>();
-        this.transform = new Transform();
-        this.zIndex=0;
-    }
+    private static int ID_COUNTER =0;
+    private int uid =-1;
 
     public GameObject(String name,Transform transform,int zIndex){
         this.name = name;
         this.zIndex = zIndex;
         this.components = new ArrayList<>();
         this.transform =transform;
+        this.uid = ID_COUNTER++;
     }
 
     public <T extends Component>  T getComponent(Class<T> componentClass){
@@ -49,6 +48,7 @@ public class GameObject {
     }
 
     public void addComponent(Component component){
+        component.generateId();
         components.add(component);
         component.gameObject = this;
     }
@@ -73,5 +73,17 @@ public class GameObject {
         for(Component c :components){
             c.imgui();
         }
+    }
+
+    public int getUid(){
+        return this.uid;
+    }
+
+    public static void init(int maxId){
+        ID_COUNTER = maxId;
+    }
+
+    public List<Component> getAllComponents() {
+        return components;
     }
 }
